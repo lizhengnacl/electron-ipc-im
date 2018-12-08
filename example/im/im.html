@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IM</title>
+</head>
+<body>
+<script>
+    const { ipcRenderer, remote } = require('electron');
+    const Server = require('../../src/server');
+    let imServer = new Server({
+        ipcRenderer: ipcRenderer,
+        rendererManager: remote.getGlobal('rendererManager'),
+        winId: remote.getCurrentWindow().id,
+        channel: 'main-renderer',
+        serverId: 'im',
+        pipeType: 'pipe',
+        offlineType: 'offline',
+    });
+
+    // 其他窗口
+    let plugin = {
+        url: 'file:///Users/lizhengnacl/liz/electron-ipc-im/example/plugin/plugin.html',
+        id: 'plugin'
+    };
+
+    // 监听请求
+    imServer.on({
+        type: 'some type',
+        callback: (err, res) => {
+            imServer.response(Object.assign({}, res, { data: { type: 'server response' } }))
+        }
+    })
+
+    // 主动推送
+    imServer.response(plugin.id, 'some type', { type: 'server push' });
+    imServer.rendererManager.load(plugin.url, plugin.id);
+    // imServer.rendererManager.unload(plugin.id);
+</script>
+</body>
+</html>

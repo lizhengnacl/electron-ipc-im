@@ -1,0 +1,67 @@
+/**
+ * * Created by lee on 2018/12/8
+ * 主进程
+ * ipcServer 负责ipc通信
+ * rendererManager 窗口生命周期管理
+ */
+
+const Server = require('post-message-im/dist/server');
+const RendererManager = require('./lib/rendererManager');
+
+class Main {
+    constructor (props = {}) {
+        let { debug = false, ipcMain, BrowserWindow, channel = 'main-renderer', globalVariable = 'rendererManager', pipeType = 'pipe', capacity = 100 } = props;
+
+        // 窗口管理
+        const rendererManager = new RendererManager({
+            debug: debug,
+            BrowserWindow: BrowserWindow
+        });
+        // 挂在到全局，保证主窗口能获取到
+        global[globalVariable] = rendererManager;
+
+        /**
+         * 消息透传
+         * Server中的方法，this绑定到Server实例上
+         */
+
+        this.ipcServer = new Server({
+            capacity: capacity,
+            validator: function({ id }) {
+                this.status.load(id);
+                return true;
+            },
+            subscribe: function() {
+                let $$symbol = this.$$symbol;
+                let distribute = this.distribute;
+
+                ipcMain.on(channel, (event, data) => {
+                    if(data && (data.$$symbol === $$symbol)) {
+                        distribute(data);
+                    }
+                });
+            },
+            getFrameWindow: function(id) {
+                return rendererManager.getWin(id);
+            },
+            postMessageToChild: function(win, data) {
+                win.send(channel, data);
+            }
+        });
+
+        const ipcServer = this.ipcServer;
+        ipcServer.on({
+            type: pipeType,
+            callback: (err, res) => {
+                let { from, to, data } = res.params;
+                // 响应请求
+                ipcServer.response(Object.assign({}, res, { data: { ok: true } }));
+                // 转发消息
+                // 这步特别重要，保证on pipe 能拿到数据
+                ipcServer.response(to, pipeType, { rescode: 0, data: { from, to, data } });
+            }
+        });
+    }
+}
+
+module.exports = Main;

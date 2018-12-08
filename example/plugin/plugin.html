@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plugin</title>
+</head>
+<body>
+<script>
+    const { ipcRenderer } = require('electron');
+    const Client = require('../../src/client');
+
+    const imClient = new Client({
+        ipcRenderer: ipcRenderer,
+        channel: 'main-renderer',
+        serverId: 'im',
+        id: 'plugin',
+        pipeType: 'pipe',
+    });
+
+    // 监听事件
+    imClient.on({
+        type: 'some type',
+        callback: (err, data) => {
+            console.log('========== on ==========', data);
+        }
+    })
+
+    imClient.request({
+        type: 'offline',
+        callback: (err, res) => {
+            imClient.distribute(res);
+        }
+    })
+
+    // 主动请求
+    imClient.request({
+        type: 'some type',
+        callback: (err, data) => {
+            console.log('========== request ==========', data);
+        }
+    })
+</script>
+</body>
+</html>

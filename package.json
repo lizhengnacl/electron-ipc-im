@@ -1,0 +1,38 @@
+{
+  "name": "@xm/electron-ipc-im",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron example/main.js",
+    "debug": "electron --inspect-brk example/main.js",
+    "eslint": "eslint src",
+    "test": "jest",
+    "deploy": "npm publish --registry http://r.npm.sankuai.com"
+  },
+  "husky": {
+    "hooks": {}
+  },
+  "homepage": "https://github.com/lizhengnacl/electron-ipc-im",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lizhengnacl/electron-ipc-im"
+  },
+  "bugs": {
+    "url": "https://github.com/lizhengnacl/electron-ipc-im/issues"
+  },
+  "keywords": [
+    "electron",
+    "ipc",
+    "buffer",
+    "cache"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "electron ipc better, buffer design",
+  "devDependencies": {
+    "eslint": "^5.10.0"
+  },
+  "dependencies": {
+    "post-message-im": "^0.1.7"
+  }
+}
