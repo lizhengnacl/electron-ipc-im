@@ -39,8 +39,23 @@ class RendererManager {
         win.on('focus', () => {this._broadcast(id, 'focus');});
     }
 
+    focus (id) {
+        if(this.exists(id)) {
+            let win = this.getWin(id);
+            win && typeof win.focus === 'function' && win.focus();
+        }
+    }
+
+    blur(id){
+        if(this.exists(id)) {
+            let win = this.getWin(id);
+            win && typeof win.blur === 'function' && win.blur();
+        }
+    }
+
     load (url, id, options = {}) {
         if(this.exists(id)) {
+            this.focus(id);
             return this.getWin(id);
         }
 

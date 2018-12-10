@@ -5,6 +5,9 @@
     <title>Plugin</title>
 </head>
 <body>
+<div>
+    <button id="request">request</button>
+</div>
 <script>
     const { ipcRenderer } = require('electron');
     const Client = require('../../src/client');
@@ -32,12 +35,14 @@
         }
     })
 
-    // 主动请求
-    imClient.request({
-        type: 'some type',
-        callback: (err, data) => {
-            console.log('========== request ==========', data);
-        }
+    let btn = document.getElementById('request');
+    btn.addEventListener('click', () => {
+        imClient.request({
+            type: 'some type',
+            callback: (err, data) => {
+                console.log('========== request ==========', data);
+            }
+        })
     })
 </script>
 </body>

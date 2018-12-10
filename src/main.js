@@ -20,6 +20,8 @@ class Main {
         // 挂在到全局，保证主窗口能获取到
         global[globalVariable] = rendererManager;
 
+        this.rendererManager = rendererManager;
+
         /**
          * 消息透传
          * Server中的方法，this绑定到Server实例上

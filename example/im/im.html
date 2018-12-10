@@ -5,6 +5,9 @@
     <title>IM</title>
 </head>
 <body>
+<div>
+    <button id="create">create</button>
+</div>
 <script>
     const { ipcRenderer, remote } = require('electron');
     const Server = require('../../src/server');
@@ -32,10 +35,13 @@
         }
     })
 
-    // 主动推送
-    imServer.response(plugin.id, 'some type', { type: 'server push' });
-    imServer.rendererManager.load(plugin.url, plugin.id);
-    // imServer.rendererManager.unload(plugin.id);
+    let btn = document.getElementById('create');
+    btn.addEventListener('click', () => {
+        // 主动推送
+        imServer.response(plugin.id, 'some type', { type: 'server push' });
+        imServer.rendererManager.load(plugin.url, plugin.id);
+        // imServer.rendererManager.unload(plugin.id);
+    })
 </script>
 </body>
 </html>

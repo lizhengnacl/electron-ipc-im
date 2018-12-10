@@ -1,6 +1,3 @@
-[![NPM version][npm-image]][npm-url]
-
-
 ## 概述
 主窗口`server`与其他窗口`client`的通信过程，可以用一种简易的消息模型来理解。
 
@@ -10,25 +7,26 @@
 ## 安装
 
 ```
-npm i electron-ipc-im
+mnpm i @xm/electron-ipc-im
 ```
 
 ## 非主窗口
 
 ```
-const Client = require('electron-ipc-im/src/client');
+const Client = require('@xm/electron-ipc-im/src/client');
 
 const imClient = new Client({
     ipcRenderer: require('electron').ipcRenderer,
-    channel: 'main-renderer',
     serverId: 'im',
     id: 'plugin',
-    // pipeType: 'pipe',
+
+    channel: 'main-renderer',
+    pipeType: 'pipe',
 });
 
 imClient.on({
     type: 'some type',
-    callback: (err, data) => {}
+    callback: (err, res) => {}
 })
 
 imClient.request({
@@ -51,16 +49,17 @@ callback返回值
 ##  主窗口
 
 ```
-const Server = require('electron-ipc-im/src/server');
+const Server = require('@xm/electron-ipc-im/src/server');
 
 let imServer = new Server({
-    channel: 'main-renderer',
-    serverId: 'im',
-    pipeType: 'pipe',
-    offlineType: 'offline',
     ipcRenderer: require('electron').ipcRenderer,
     rendererManager: require('electron').remote.getGlobal('rendererManager'),
     winId: require('electron').remote.getCurrentWindow().id,
+    serverId: 'im',
+
+    channel: 'main-renderer',
+    pipeType: 'pipe',
+    offlineType: 'offline',
 });
 
 imServer.on({
@@ -82,16 +81,16 @@ imServer.rendererManager.unload(plugin.id);
 ## 主进程
 
 ```
-const Main = require('electron-ipc-im/src/main');
+const Main = require('@xm/electron-ipc-im/src/main');
 try {
     new Main({
-        debug: true,
+        debug: false, // 是否开启调试
         ipcMain: require('electron').ipcMain,
         BrowserWindow: require('electron').BrowserWindow,
-        channel: 'main-renderer',
-        globalVariable: 'rendererManager', // rendererManager
-        pipeType: 'pipe',
-        capacity: 10 // 每个窗体缓存的消息量
+        channel: 'main-renderer', // ipc channel
+        globalVariable: 'rendererManager', // 窗体管理挂载变量
+        pipeType: 'pipe', // ipcServer ipcClient消息透传标示
+        capacity: 10 // 窗体消息缓存容量
     })
 } catch(e) {}
 ```
@@ -129,5 +128,5 @@ c.request({
 ```
 
 
-[npm-image]: https://img.shields.io/npm/v/electron-ipc-im.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/electron-ipc-im
+[npm-image]: https://img.shields.io/npm/v/@xm/electron-ipc-im.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@xm/electron-ipc-im
