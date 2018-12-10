@@ -1,10 +1,10 @@
 {
   "name": "@xm/electron-ipc-im",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "src/index.js",
   "scripts": {
-    "start": "electron example/main.js",
-    "debug": "electron --inspect-brk example/main.js",
+    "demo": "electron example/main.js",
+    "demo:debug": "electron --inspect-brk example/main.js",
     "eslint": "eslint src",
     "test": "jest",
     "deploy": "npm publish --registry http://r.npm.sankuai.com"

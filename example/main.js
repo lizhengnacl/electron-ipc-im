@@ -18,7 +18,6 @@ function ready () {
             BrowserWindow: BrowserWindow,
             channel: 'main-renderer',
             globalVariable: 'rendererManager', // rendererManager
-            pipeType: 'pipe',
             capacity: 10 // 每个窗体缓存的消息量
         })
     } catch(e) {

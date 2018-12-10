@@ -1,3 +1,6 @@
+0.0.4
+readme
+
 0.0.3
 窗体管理聚焦、失焦；
 rendererManager挂载到Main实体
