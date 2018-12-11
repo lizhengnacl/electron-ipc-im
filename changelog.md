@@ -1,3 +1,6 @@
+0.0.5
+暴露 dataFilter、validator方法
+
 0.0.4
 readme
 

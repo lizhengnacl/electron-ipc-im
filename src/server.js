@@ -8,9 +8,11 @@
 const _Server = require('post-message-im/dist/server');
 const _Client = require('post-message-im/dist/client');
 
+const { dataFilter: _dataFilter, validator: _validator } = require('./lib/utils');
+
 class Server {
     constructor (props) {
-        let { channel = 'main-renderer', serverId = 'im', ipcRenderer, rendererManager, winId, pipeType = 'pipe', offlineType = 'offline' } = props;
+        let { channel = 'main-renderer', serverId = 'im', ipcRenderer, rendererManager, winId, pipeType = 'pipe', offlineType = 'offline', dataFilter = _dataFilter, validator = _validator } = props;
 
         // 设置主窗口
         rendererManager.setMain(serverId, winId);
@@ -36,10 +38,8 @@ class Server {
         });
 
         const imServer = new _Server({
-            validator: function({ id }) {
-                this.status.load(id);
-                return true;
-            },
+            validator: validator,
+            dataFilter: dataFilter,
             subscribe: function() {
                 let $$symbol = this.$$symbol;
                 let distribute = this.distribute;

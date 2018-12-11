@@ -8,9 +8,11 @@
 const Server = require('post-message-im/dist/server');
 const RendererManager = require('./lib/rendererManager');
 
+const { dataFilter: _dataFilter, validator: _validator } = require('./lib/utils');
+
 class Main {
     constructor (props = {}) {
-        let { debug = false, ipcMain, BrowserWindow, channel = 'main-renderer', globalVariable = 'rendererManager', pipeType = 'pipe', capacity = 100 } = props;
+        let { debug = false, ipcMain, BrowserWindow, channel = 'main-renderer', globalVariable = 'rendererManager', pipeType = 'pipe', capacity = 100, dataFilter = _dataFilter, validator = _validator } = props;
 
         // 窗口管理
         const rendererManager = new RendererManager({
@@ -29,10 +31,8 @@ class Main {
 
         this.ipcServer = new Server({
             capacity: capacity,
-            validator: function({ id }) {
-                this.status.load(id);
-                return true;
-            },
+            validator: validator,
+            dataFilter: dataFilter,
             subscribe: function() {
                 let $$symbol = this.$$symbol;
                 let distribute = this.distribute;
