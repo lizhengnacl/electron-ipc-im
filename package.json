@@ -3,8 +3,8 @@
   "version": "0.0.5",
   "main": "src/index.js",
   "scripts": {
-    "demo": "electron example/main.js",
-    "demo:debug": "electron --inspect-brk example/main.js",
+    "start": "electron example/main.js",
+    "debug": "electron --inspect-brk example/main.js",
     "eslint": "eslint src",
     "test": "jest",
     "deploy": "npm publish --registry http://r.npm.sankuai.com"
