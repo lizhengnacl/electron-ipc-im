@@ -15,9 +15,6 @@ mnpm i @xm/electron-ipc-im
 ```
 serverId: 'im' // 主窗口唯一标识
 id: 'plugin', // 非主窗口唯一标识
-channel: 'main-renderer' // ipc channel
-rendererManager: rendererManager // 主进程中用来管理窗体的模块
-globalVariable: 'rendererManager' // 将rendererManager模块挂载到global的变量名
 ```
 
 ## 非主窗口
@@ -29,7 +26,6 @@ const imClient = new Client({
     ipcRenderer: require('electron').ipcRenderer,
     serverId: 'im',
     id: 'plugin',
-    channel: 'main-renderer'
 });
 
 imClient.on({
@@ -63,8 +59,7 @@ let imServer = new Server({
     ipcRenderer: require('electron').ipcRenderer,
     rendererManager: require('electron').remote.getGlobal('rendererManager'),
     winId: require('electron').remote.getCurrentWindow().id,
-    serverId: 'im',
-    channel: 'main-renderer'
+    serverId: 'im'
 });
 
 imServer.on({
@@ -92,8 +87,6 @@ try {
         debug: false, // 是否开启调试
         ipcMain: require('electron').ipcMain,
         BrowserWindow: require('electron').BrowserWindow,
-        channel: 'main-renderer', // ipc channel
-        globalVariable: 'rendererManager', // 窗体管理挂载变量
         capacity: 10 // 窗体消息缓存容量
     })
 } catch(e) {}
