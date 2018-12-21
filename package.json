@@ -1,5 +1,5 @@
 {
-  "name": "@xm/electron-ipc-im",
+  "name": "electron-ipc-im",
   "version": "0.0.5",
   "main": "src/index.js",
   "scripts": {
@@ -7,7 +7,7 @@
     "debug": "electron --inspect-brk example/main.js",
     "eslint": "eslint src",
     "test": "jest",
-    "deploy": "npm publish --registry http://r.npm.sankuai.com"
+    "deploy": "npm publish"
   },
   "husky": {
     "hooks": {}
@@ -28,7 +28,7 @@
   ],
   "author": "",
   "license": "ISC",
-  "description": "electron ipc better, buffer design",
+  "description": "better electron ipc, buffer design",
   "devDependencies": {
     "eslint": "^5.10.0"
   },

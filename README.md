@@ -7,7 +7,7 @@
 ## 安装
 
 ```
-mnpm i @xm/electron-ipc-im
+mnpm i electron-ipc-im
 ```
 
 ## 配置说明
@@ -20,7 +20,7 @@ id: 'plugin', // 非主窗口唯一标识
 ## 非主窗口
 
 ```
-const Client = require('@xm/electron-ipc-im/src/client');
+const Client = require('electron-ipc-im/src/client');
 
 const imClient = new Client({
     ipcRenderer: require('electron').ipcRenderer,
@@ -53,7 +53,7 @@ callback返回值
 ##  主窗口
 
 ```
-const Server = require('@xm/electron-ipc-im/src/server');
+const Server = require('electron-ipc-im/src/server');
 
 let imServer = new Server({
     ipcRenderer: require('electron').ipcRenderer,
@@ -81,7 +81,7 @@ imServer.rendererManager.unload(plugin.id);
 ## 主进程
 
 ```
-const Main = require('@xm/electron-ipc-im/src/main');
+const Main = require('electron-ipc-im/src/main');
 try {
     new Main({
         debug: false, // 是否开启调试
@@ -124,6 +124,5 @@ c.request({
 }).then((data) => {})
 ```
 
-
-[npm-image]: https://img.shields.io/npm/v/@xm/electron-ipc-im.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@xm/electron-ipc-im
+[npm-image]: https://img.shields.io/npm/v/electron-ipc-im.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/electron-ipc-im
