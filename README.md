@@ -7,7 +7,7 @@
 ## 安装
 
 ```
-mnpm i electron-ipc-im
+npm i electron-ipc-im
 ```
 
 ## 配置说明
