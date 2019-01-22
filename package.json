@@ -1,13 +1,14 @@
 {
   "name": "@xm/electron-ipc-im",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "src/index.js",
   "scripts": {
     "start": "electron example/main.js",
     "debug": "electron --inspect-brk example/main.js",
     "eslint": "eslint src",
     "test": "jest",
-    "deploy": "npm publish --registry http://r.npm.sankuai.com"
+    "deploy": "npm publish --registry http://r.npm.sankuai.com",
+    "build": "babel src -d dist"
   },
   "husky": {
     "hooks": {}
@@ -30,6 +31,13 @@
   "license": "ISC",
   "description": "electron ipc better, buffer design",
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^5.10.0"
   },
   "dependencies": {
