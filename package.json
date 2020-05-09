@@ -8,10 +8,8 @@
     "eslint": "eslint src",
     "test": "jest",
     "deploy": "npm publish",
-    "build": "babel src -d dist"
-  },
-  "husky": {
-    "hooks": {}
+    "build": "babel src -d dist",
+    "fix": "prettier --write src/**/** example/**/**"
   },
   "homepage": "https://github.com/lizhengnacl/electron-ipc-im",
   "repository": {
@@ -35,12 +33,27 @@
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
     "@babel/preset-env": "^7.2.3",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.7.0",
-    "eslint": "^5.10.0"
+    "eslint": "^5.10.0",
+    "husky": "^4.2.5"
   },
   "dependencies": {
     "post-message-im": "^0.1.7"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": true,
+    "singleQuote": true
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run fix",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }

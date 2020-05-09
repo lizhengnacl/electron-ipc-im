@@ -3,58 +3,62 @@
  */
 
 class RendererManager {
-    constructor (props) {
+    constructor(props) {
         this.BrowserWindow = props.BrowserWindow;
         this.state = {};
         this.registers = [];
         this.debug = props.debug || false;
     }
 
-    _broadcast (id, status) {
+    _broadcast(id, status) {
         this.registers.forEach(fn => fn(id, status));
     }
 
-    _load (id, winId) {
+    _load(id, winId) {
         this.state[id] = winId;
     }
 
-    _unload (id) {
+    _unload(id) {
         delete this.state[id];
     }
 
-    getWin (id) {
-        if(this.exists(id)) {
+    getWin(id) {
+        if (this.exists(id)) {
             return this.BrowserWindow.fromId(this.state[id]);
         }
         return null;
     }
 
-    _monitor (id, win) {
-        win.on('close', (e) => {
+    _monitor(id, win) {
+        win.on('close', e => {
             e.preventDefault();
             this.unload(id);
             this._broadcast(id, 'close');
         });
-        win.on('blur', () => {this._broadcast(id, 'blur');});
-        win.on('focus', () => {this._broadcast(id, 'focus');});
+        win.on('blur', () => {
+            this._broadcast(id, 'blur');
+        });
+        win.on('focus', () => {
+            this._broadcast(id, 'focus');
+        });
     }
 
-    focus (id) {
-        if(this.exists(id)) {
+    focus(id) {
+        if (this.exists(id)) {
             let win = this.getWin(id);
             win && typeof win.focus === 'function' && win.focus();
         }
     }
 
-    blur(id){
-        if(this.exists(id)) {
+    blur(id) {
+        if (this.exists(id)) {
             let win = this.getWin(id);
             win && typeof win.blur === 'function' && win.blur();
         }
     }
 
-    load (url, id, options = {}) {
-        if(this.exists(id)) {
+    load(url, id, options = {}) {
+        if (this.exists(id)) {
             this.focus(id);
             return this.getWin(id);
         }
@@ -65,9 +69,11 @@ class RendererManager {
             // frame: false
         };
 
-        let win = new this.BrowserWindow(Object.assign({}, defaultOptions, options));
+        let win = new this.BrowserWindow(
+            Object.assign({}, defaultOptions, options)
+        );
         win.loadURL(url);
-        if(this.debug === true) {
+        if (this.debug === true) {
             win.webContents.openDevTools();
         }
         this._load(id, win.id);
@@ -79,13 +85,13 @@ class RendererManager {
         return win;
     }
 
-    exists (id) {
+    exists(id) {
         return this.state[id] !== void 0;
     }
 
-    unload (id) {
+    unload(id) {
         let win = this.getWin(id);
-        if(win !== null) {
+        if (win !== null) {
             win.destroy();
             // win.close();
             this._unload(id);
@@ -93,19 +99,19 @@ class RendererManager {
     }
 
     // 订阅事件，窗口事件close blur focus
-    register (fn) {
+    register(fn) {
         this.registers.push(fn);
     }
 
-    unregister (fn) {
+    unregister(fn) {
         let index = this.registers.indexOf(fn);
-        if(index !== -1) {
+        if (index !== -1) {
             this.registers.splice(index, 1);
         }
     }
 
     // 设置主窗口
-    setMain (id, winId) {
+    setMain(id, winId) {
         this.state[id] = winId;
     }
 }

@@ -1,51 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>IM</title>
-</head>
-<body>
-<div>
-    <button id="create">create</button>
-</div>
-<script>
-    const { ipcRenderer, remote } = require('electron');
-    const Server = require('../../src/server');
-    let imServer = new Server({
-        validator: function({ id }) {
-            // this bind imServer
-            this.status.load(id);
-            return true;
-        },
-        // dataFilter: (data) => {return data;},
-        ipcRenderer: ipcRenderer,
-        rendererManager: remote.getGlobal('rendererManager'),
-        winId: remote.getCurrentWindow().id,
-        channel: 'main-renderer',
-        serverId: 'im',
-    });
+    <head>
+        <meta charset="UTF-8" />
+        <title>IM</title>
+    </head>
+    <body>
+        <div>
+            <button id="create">create</button>
+        </div>
+        <script>
+            const { ipcRenderer, remote } = require('electron');
+            const Server = require('../../src/server');
+            let imServer = new Server({
+                validator: function({ id }) {
+                    // this bind imServer
+                    this.status.load(id);
+                    return true;
+                },
+                // dataFilter: (data) => {return data;},
+                ipcRenderer: ipcRenderer,
+                rendererManager: remote.getGlobal('rendererManager'),
+                winId: remote.getCurrentWindow().id,
+                channel: 'main-renderer',
+                serverId: 'im',
+            });
 
-    // 其他窗口
-    let plugin = {
-        url: 'file:///Users/lizhengnacl/liz/electron-ipc-im/example/plugin/plugin.html',
-        id: 'plugin'
-    };
+            // 其他窗口
+            let plugin = {
+                url:
+                    'file:///Users/lizhengnacl/liz/electron-ipc-im/example/plugin/plugin.html',
+                id: 'plugin',
+            };
 
-    // 监听请求
-    imServer.on({
-        type: 'some type',
-        callback: (err, res) => {
-            imServer.response(Object.assign({}, res, { data: { type: 'server response' } }))
-        }
-    })
+            // 监听请求
+            imServer.on({
+                type: 'some type',
+                callback: (err, res) => {
+                    imServer.response(
+                        Object.assign({}, res, {
+                            data: { type: 'server response' },
+                        })
+                    );
+                },
+            });
 
-    let btn = document.getElementById('create');
-    btn.addEventListener('click', () => {
-        // 主动推送
-        imServer.response(plugin.id, 'some type', { type: 'server push' });
-        imServer.rendererManager.load(plugin.url, plugin.id);
-        // imServer.rendererManager.unload(plugin.id);
-    })
-</script>
-</body>
+            let btn = document.getElementById('create');
+            btn.addEventListener('click', () => {
+                // 主动推送
+                imServer.response(plugin.id, 'some type', {
+                    type: 'server push',
+                });
+                imServer.rendererManager.load(plugin.url, plugin.id);
+                // imServer.rendererManager.unload(plugin.id);
+            });
+        </script>
+    </body>
 </html>
