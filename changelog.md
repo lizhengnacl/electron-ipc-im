@@ -1,3 +1,6 @@
+0.0.6
+编译到ES5，解决UglifyJs不能压缩ES6代码的bug
+
 0.0.5
 暴露 dataFilter、validator方法
 
