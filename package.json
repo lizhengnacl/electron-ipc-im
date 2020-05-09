@@ -7,7 +7,7 @@
     "debug": "electron --inspect-brk example/main.js",
     "eslint": "eslint src",
     "test": "jest",
-    "deploy": "npm publish",
+    "deploy": "npm run build && npm publish --registry https://registry.npmjs.org",
     "build": "babel src -d dist",
     "fix": "prettier --write src/**/** example/**/**"
   },
