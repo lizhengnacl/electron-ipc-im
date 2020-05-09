@@ -50,7 +50,11 @@
                 imServer.response(plugin.id, 'some type', {
                     type: 'server push',
                 });
-                imServer.rendererManager.load(plugin.url, plugin.id);
+                imServer.rendererManager.load(plugin.url, plugin.id, {
+                    webPreferences: {
+                        nodeIntegration: true,
+                    },
+                });
                 // imServer.rendererManager.unload(plugin.id);
             });
         </script>

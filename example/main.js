@@ -24,5 +24,9 @@ function ready() {
 
     let url = `file:///Users/lizhengnacl/liz/electron-ipc-im/example/im/im.html`;
     // 任何方法加载都行
-    global['rendererManager'].load(url);
+    global['rendererManager'].load(url, 'im', {
+        webPreferences: {
+            nodeIntegration: true
+        }
+    });
 }
