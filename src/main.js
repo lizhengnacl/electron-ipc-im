@@ -50,19 +50,7 @@ class Main {
                 return rendererManager.getWin(id);
             },
             postMessageToChild: function(win, data) {
-                // 向窗口派发
-                win.webContents.send(channel, data);
-                // 向窗口所属子窗口派发
-                if (typeof win.getBrowserViews === 'function') { // 1.x~4.x
-                    win.getBrowserViews().forEach((view) => {
-                        view.webContents.send(channel, data)
-                    })
-                } else if (typeof win.getBrowserView === 'function') { // 5.x+
-                    const view = win.getBrowserView()
-                    if (view) {
-                        view.webContents.send(channel, data)
-                    }
-                }                
+                win.webContents.send(channel, data);              
             }
         });
 
