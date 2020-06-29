@@ -73,10 +73,10 @@ class RendererManager {
             Object.assign({}, defaultOptions, options)
         );
 
-        if (options.loadURL !== true) {
+        if (options.loadURL !== false) {
             win.loadURL(url);
         }
-        
+
         if (this.debug === true) {
             win.webContents.openDevTools();
         }
