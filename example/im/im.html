@@ -12,7 +12,7 @@
             const { ipcRenderer, remote } = require('electron');
             const Server = require('../../src/server');
             let imServer = new Server({
-                validator: function({ id }) {
+                validator: function ({ id }) {
                     // this bind imServer
                     this.status.load(id);
                     return true;

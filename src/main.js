@@ -39,6 +39,9 @@ class Main {
 
                 ipcMain.on(channel, (event, data) => {
                     if(data && (data.$$symbol === $$symbol)) {
+                        data.meta = Object.assign({}, data.meta || {}, {
+                            fromContentsId: event.sender.id
+                        })
                         distribute(data);
                     }
                 });
@@ -47,7 +50,7 @@ class Main {
                 return rendererManager.getWin(id);
             },
             postMessageToChild: function(win, data) {
-                win.send(channel, data);
+                win.webContents.send(channel, data);              
             }
         });
 
