@@ -50,7 +50,9 @@ class Main {
                 return rendererManager.getWin(id);
             },
             postMessageToChild: function(win, data) {
-                win.webContents.send(channel, data);              
+                if (win.webContents.id !== data.meta.fromContentsId) {
+                    win.webContents.send(channel, data);          
+                }    
             }
         });
 
