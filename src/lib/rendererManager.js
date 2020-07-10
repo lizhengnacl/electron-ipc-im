@@ -60,7 +60,12 @@ class RendererManager {
     load(url, id, options = {}) {
         if (this.exists(id)) {
             this.focus(id);
-            return this.getWin(id);
+            const win = this.getWin(id);
+
+            if (win.webContents.getURL() !== url) {
+                win.loadURL(url)
+            }
+            return win
         }
 
         const defaultOptions = {
@@ -96,7 +101,9 @@ class RendererManager {
     unload(id) {
         let win = this.getWin(id);
         if (win !== null) {
-            win.destroy();
+            if (!win.isDestroyed()) {
+                win.destroy();
+            }
             // win.close();
             this._unload(id);
         }
