@@ -11,7 +11,7 @@ class RendererManager {
     }
 
     _broadcast(id, status) {
-        this.registers.forEach((fn) => fn(id, status));
+        this.registers.forEach(fn => fn(id, status));
     }
 
     _load(id, winId) {
@@ -30,7 +30,7 @@ class RendererManager {
     }
 
     _monitor(id, win) {
-        win.on('close', (e) => {
+        win.on('close', e => {
             e.preventDefault();
             this.unload(id);
             this._broadcast(id, 'close');
@@ -62,10 +62,13 @@ class RendererManager {
             this.focus(id);
             const win = this.getWin(id);
 
-            if (options.reloadWhenURLChanged && win.webContents.getURL() !== url) {
+            if (
+                options.reloadWhenURLChanged &&
+                win.webContents.getURL() !== url
+            ) {
                 win.loadURL(url);
             }
-            
+
             return win;
         }
 
