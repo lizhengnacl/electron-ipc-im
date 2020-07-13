@@ -62,10 +62,11 @@ class RendererManager {
             this.focus(id);
             const win = this.getWin(id);
 
-            if (win.webContents.getURL() !== url) {
-                win.loadURL(url)
+            if (options.reloadWhenURLChanged && win.webContents.getURL() !== url) {
+                win.loadURL(url);
             }
-            return win
+            
+            return win;
         }
 
         const defaultOptions = {
