@@ -8,7 +8,7 @@ const _Client = require('post-message-im/dist/client');
 
 class Client {
     constructor (props) {
-        let { channel = 'main-renderer', serverId = 'im', id, ipcRenderer, pipeType = 'pipe' } = props;
+        let { channel = 'main-renderer', serverId = 'im', id, ipcRenderer, pipeType = 'pipe', contentsId } = props;
 
         /**
          * ipcClient
@@ -16,6 +16,9 @@ class Client {
         const ipcClient = new _Client({
             id: id,
             postMessage: function(data) {
+                data.meta = Object.assign({}, data.meta || {}, {
+                    fromContentsId: contentsId
+                })
                 ipcRenderer.send(channel, data);
             },
             subscribe: function() {
